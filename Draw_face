@@ -1,9 +1,16 @@
 from gasp import *
 begin_graphics()
-for r in 260, 340:
+for r in 310, 390:
     Circle((r, 220), 10)
-Circle((300, 200), 100)
-Line((300, 210), (280, 170))
-Line((280, 170), (310, 170))
+Circle((350, 200), 100)
+Line((350, 210), (330, 170))
+Line((330, 170), (360, 170))
+Arc((350, 160) , 30, 225, 315)
+for r in 310, 390:
+    Arc((r, 230), 20, 30, 150)
+
+
+
 update_when('key_pressed')
 end_graphics()
+
