@@ -9,10 +9,11 @@ def drawface(x ,y):
     Arc((x, y-40) , 30, 225, 315)
     for r in x-40, x+40:
         Arc((r, y+30), 20, 30, 150)
-drawface(300, 200)
-drawface(100,50)
-
-
-
+def drawbody(x, y):
+    Line((x, y-100), (x, y-500))
+    Line((x, y-130), (x+70, y-250))
+    Line((x, y-130), (x-70, y-250))
+drawface(300, 300)
+drawbody(300, 300)
 update_when('key_pressed')
 end_graphics()
