@@ -1,16 +1,18 @@
 from gasp import *
 begin_graphics()
-for r in 310, 390:
-    Circle((r, 220), 10)
-Circle((350, 200), 100)
-Line((350, 210), (330, 170))
-Line((330, 170), (360, 170))
-Arc((350, 160) , 30, 225, 315)
-for r in 310, 390:
-    Arc((r, 230), 20, 30, 150)
+def drawface(x ,y):
+    for r in x-40, x + 40:
+        Circle((r, y+20), 10)
+    Circle((x, y), 100)
+    Line((x, y+10), (x-20, y-30))
+    Line((x-20, y-30), (x+10, y-30))
+    Arc((x, y-40) , 30, 225, 315)
+    for r in x-40, x+40:
+        Arc((r, y+30), 20, 30, 150)
+drawface(300, 200)
+drawface(100,50)
 
 
 
 update_when('key_pressed')
 end_graphics()
-
