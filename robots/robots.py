@@ -9,7 +9,6 @@ def place_player():
     Circle((10 * player_x + 5 , 10 * player_y + 5), 5, filled = True)
     print('sus')
 def move_player():
-    print('susmovesss')
     update_when('key_pressed')
 begin_graphics()
 finished = False

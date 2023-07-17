@@ -1,10 +1,9 @@
 from gasp import *
 begin_graphics()
-x = 5
-y = 5
-c = Circle((x, y), 5)
+key_text = Text("a" , (320, 240), size = 48)
 while True:
-    x += 1
-    y += 1
-    move_to(c, (x ,y))
-    sleep(.02)
+    key = update_when('key_pressed')
+    remove_from_screen(key_text)
+    key_text = Text(key, (320, 240), size = 48)
+    if key == 'q':
+        break
