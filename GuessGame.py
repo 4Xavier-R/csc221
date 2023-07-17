@@ -11,15 +11,13 @@ while True:
     guesses = 0
     while True:
         guess = (int(input(question)))
+        guesses += 1
         if guess < number:
             print("The number is higher than that.\n")
-            guesses = guesses +1
         if guess > number:
             print("The number is lower than that.\n")
-            guesses = guesses +1
         if guess == number:
             print("That's Correct!")
-            guesses = guesses +1
             print("Your total number of guesses was " + str(guesses))
             break
     if read_yesorno("Would you like to play again?\n"):
