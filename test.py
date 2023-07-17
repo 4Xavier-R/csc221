@@ -1,5 +1,10 @@
 from gasp import *
 begin_graphics()
-c = Circle((200, 100), 5)
-update_when('key_pressed')
-move_to(c, ( 300, 200))
+x = 5
+y = 5
+c = Circle((x, y), 5)
+while True:
+    x += 1
+    y += 1
+    move_to(c, (x ,y))
+    sleep(.02)
