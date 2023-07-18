@@ -2,12 +2,13 @@ from gasp import *
 from random import randint
 player_x = randint(0, 63) 
 player_y = randint(0, 47)
-bot_x = 1
-bot_y = 1 
-def place_robots():
-    print('bobot')
-    b = Box((10 * bot_x +5 , 10 * bot_y + 5), 5 , color =color.RED)
+bot_x = randint(0, 63)
+bot_y = randint(0, 47)
+def place_robot():
+    global b
+    b = Circle((10 * bot_x +5 , 10 * bot_y + 5), 5 , color =color.RED)
 def move_robot():
+    global bot_x, bot_y, b
     print('bot move')
     if bot_y > player_y:
         bot_y -= 1
@@ -17,6 +18,8 @@ def move_robot():
         bot_x -= 1
     if bot_x < player_x:
         bot_x += 1
+    move_to(b, (10 * bot_x, 10 * bot_y))
+    
 def place_player():
     global c
     c = Circle((10 * player_x + 5 , 10 * player_y + 5), 5, filled = True, color = color.PURPLE)
@@ -34,12 +37,21 @@ def move_player():
     if key == 'Right' and player_x <63:
         player_x += 1
     move_to(c, (10 * player_x, 10 * player_y))
+def check_collisions():
+    global finished
+    if player_x == bot_x and player_y == bot_y:
+        Text("You've Been Caught", (320, 240), size=40)
+        sleep(2)
 
-    
+
+
 begin_graphics()
 finished = False
 
 place_player()
+place_robot()
 while not finished:
     move_player()
+    move_robot()
+    check_collisions()
 end_graphics()
