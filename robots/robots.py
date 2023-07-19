@@ -19,7 +19,6 @@ def place_robot():
 
 
 def move_robot():
-    global bot, player, b
     print('bot move')
     if bot.y > player.y:
         bot.y -= 1
@@ -41,7 +40,6 @@ def place_player():
 
 
 def move_player():
-    global player, c
     print('move')
     key = update_when('key_pressed')
     while key == 'space':
