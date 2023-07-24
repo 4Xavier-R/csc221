@@ -1,7 +1,7 @@
 from gasp import * 
 from random import randint
 
-
+telecount = 0
 class Robot:
     pass
 
@@ -12,13 +12,14 @@ class Player:
 
 def place_robot():
     global b, bot, robots
-    bot = Robot()
     robots = []
-    for i in range(numbot):
+    while len(robots) < numbot:
+        bot = Robot()
         bot.x = randint(0, 63)
         bot.y = randint(0, 47)
-        b = Circle((10 * bot.x + 5 , 10 * bot.y + 5 ), 5, color =color.RED)
-        robots.append(bot)
+        if not collided(bot, robots):
+            b = Circle((10 * bot.x + 5 , 10 * bot.y + 5 ), 5, color =color.RED)
+            robots.append(bot)
 
 
 def move_robot():
