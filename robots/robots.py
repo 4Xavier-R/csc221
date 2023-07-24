@@ -11,11 +11,14 @@ class Player:
 
 
 def place_robot():
-    global b, bot
+    global b, bot, robots
     bot = Robot()
-    bot.x = randint(0, 63)
-    bot.y = randint(0, 47)
-    b = Circle((10 * bot.x +5 , 10 * bot.y + 5), 5 , color =color.RED)
+    robots = []
+    for i in range(numbot):
+        bot.x = randint(0, 63)
+        bot.y = randint(0, 47)
+        b = Circle((10 * bot.x + 5 , 10 * bot.y + 5 ), 5, color =color.RED)
+        robots.append(bot)
 
 
 def move_robot():
@@ -28,7 +31,7 @@ def move_robot():
         bot.x -= 1
     if bot.x < player.x:
         bot.x += 1
-    move_to(b, (10 * bot.x, 10 * bot.y))
+    move_to(b, (10 * bot.x + 5, 10 * bot.y + 5))
 
 
 def place_player():
@@ -55,26 +58,34 @@ def move_player():
         player.x -= 1
     if key == 'Right' and player.x <63:
         player.x += 1
-    
-    move_to(c, (10 * player.x, 10 * player.y))
+    move_to(c, (10 * player.x + 5, 10 * player.y + 5))
 
+def collided(player, robots):
+    for bot in robots:
+        if player.x == bot.x and player.y == bot.y:
+            return True
+    return False
+    
+    
 
 def check_collisions():
-    global finished, player
-    if player.x == bot.x and player.y == bot.y:
-        Text("You've Been Caught", (320, 240), size=40)
+    global finished, player, collided
+    if collided(player, robots):
+        Text("You've Been Caught", (315, 235), size=40)
         sleep(2)
         finished = True
 
 def safe_player():
     place_player()
-    while player.x == bot.x and player.y == bot.y:
+    if collided(player, robots):           
         print('safety')
+        remove_from_screen(c)
         place_player()
 
 
 begin_graphics()
 finished = False
+numbot = 10
 
 place_robot()
 safe_player()
