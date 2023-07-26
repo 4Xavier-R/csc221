@@ -10,29 +10,31 @@ class Player:
     pass
 
 
-def place_robot():
-    global b, bot, robots
+def place_robots():
+    global robots
     robots = []
     while len(robots) < numbot:
         bot = Robot()
         bot.x = randint(0, 63)
         bot.y = randint(0, 47)
         if not collided(bot, robots):
-            b = Circle((10 * bot.x + 5 , 10 * bot.y + 5 ), 5, color =color.RED)
+            bot.shape = Circle((10 * bot.x + 5 , 10 * bot.y + 5 ), 5, color =color.RED)
             robots.append(bot)
 
 
-def move_robot():
+def move_robots():
+    global robots
     print('bot move')
-    if bot.y > player.y:
-        bot.y -= 1
-    if bot.y < player.y:
-        bot.y +=1
-    if bot.x > player.x:
-        bot.x -= 1
-    if bot.x < player.x:
-        bot.x += 1
-    move_to(b, (10 * bot.x + 5, 10 * bot.y + 5))
+    for bot in robots:
+        if bot.y > player.y:
+            bot.y -= 1
+        if bot.y < player.y:
+            bot.y +=1
+        if bot.x > player.x:
+            bot.x -= 1
+        if bot.x < player.x:
+            bot.x += 1
+        move_to(bot.shape, (10 * bot.x + 5, 10 * bot.y + 5))
 
 
 def place_player():
@@ -44,10 +46,12 @@ def place_player():
 
 
 def move_player():
+    global telecount
     print('move')
     key = update_when('key_pressed')
     while key == 'space':
         print('teleport')
+        telecount = telecount +1 
         remove_from_screen(c)
         safe_player()
         key = update_when('key_pressed')
@@ -67,7 +71,7 @@ def collided(player, robots):
             return True
     return False
     
-    
+
 
 def check_collisions():
     global finished, player, collided
@@ -88,12 +92,12 @@ begin_graphics()
 finished = False
 numbot = 10
 
-place_robot()
+place_robots()
 safe_player()
 
 while not finished:
     move_player()
-    move_robot()
+    move_robots()
     check_collisions()
 
 end_graphics()
