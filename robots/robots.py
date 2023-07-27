@@ -79,28 +79,30 @@ def check_collisions():
     for bot in robots:
         if collided(bot, junk):
             continue
-        bot_crash(bot)
-        #if jbot == False:
-         #   surviving_bots.append(bot)
-        
+        jbot = bot_crash(bot)
+        if jbot == False:
+            surviving_bots.append(bot)
+        else:
+            remove_from_screen(jbot.shape)
+            jbot.shape = Box((10*jbot.x, 10*jbot.y), 10, 10, filled=True)
+            junk.append(jbot)
     if collided(player, robots+junk):
         Text("You've Been Caught", (315, 235), size=40)
         sleep(2)
-        finished = True
+        finished = True                                   
         return
 
 junk = []
 
 
-def bot_crash(bot):    
-    for bot in robots:
-        if bot == bot:
+def bot_crash(the_bot):    
+    for a_bot in robots:
+        if a_bot == the_bot:
             return False
-        if bot.x == bot.x and bot.y == bot.y:
+        if a_bot.x == the_bot.x and a_bot.y == the_bot.y:
             print("crash")
-            return bot
-            
-        return False
+            return a_bot
+    return False
     
 def safe_player():
     place_player()
