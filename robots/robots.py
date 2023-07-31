@@ -19,6 +19,7 @@ def place_robots():
         bot.y = randint(0, 47)
         if not collided(bot, robots):
             bot.shape = Circle((10 * bot.x + 5 , 10 * bot.y + 5 ), 5, color =color.RED)
+            bot.dead = False
             robots.append(bot)
 
 
@@ -26,15 +27,16 @@ def move_robots():
     global robots
     print('bot move')
     for bot in robots:
-        if bot.y > player.y:
-            bot.y -= 1
-        if bot.y < player.y:
-            bot.y +=1
-        if bot.x > player.x:
-            bot.x -= 1
-        if bot.x < player.x:
-            bot.x += 1
-        move_to(bot.shape, (10 * bot.x + 5, 10 * bot.y + 5))
+        if not bot.dead:
+            if bot.y > player.y:
+                bot.y -= 1
+            if bot.y < player.y:
+                bot.y +=1
+            if bot.x > player.x:
+                bot.x -= 1
+            if bot.x < player.x:
+                bot.x += 1
+            move_to(bot.shape, (10 * bot.x + 5, 10 * bot.y + 5))
 
 
 def place_player():
@@ -74,23 +76,38 @@ def collided(player, robots):
 
 
 def check_collisions():
+    
     global finished, robots, junk
-    surviving_bots = []
-    for bot in robots:
-        if collided(bot, junk):
-            continue
-        jbot = bot_crash(bot)
-        if jbot == False:
-            surviving_bots.append(bot)
-        else:
-            remove_from_screen(jbot.shape)
-            jbot.shape = Box((10*jbot.x, 10*jbot.y), 10, 10, filled=True)
-            junk.append(jbot)
     if collided(player, robots+junk):
         Text("You've Been Caught", (315, 235), size=40)
         sleep(2)
         finished = True                                   
         return
+    surviving_bots = []
+    print(surviving_bots)
+    for bot in robots:
+        if collided(bot, junk):
+            print('junk collide')
+            continue
+        jbot = bot_crash(bot)
+        if jbot == False:
+            print('a')
+            surviving_bots.append(bot)
+        else:
+            remove_from_screen(jbot.shape)
+            jbot.shape = Box((10*jbot.x  , 10*jbot.y ), 10, 10, filled=True)
+            jbot.dead = True
+            junk.append(bot)
+    robots = []
+    
+    for bot in surviving_bots:
+        if not collided(bot, junk):
+            robots.append(bot)
+    if not robots:
+        Text("You Won!", (315, 235), size=40)
+        sleep(2)
+        finished = True
+    
 
 junk = []
 
@@ -110,11 +127,11 @@ def safe_player():
         print('safety')
         remove_from_screen(c)
         place_player()
-
-
+        
+numbot = int(input("How many robots do you want? "))
 begin_graphics()
 finished = False
-numbot = 10
+
 
 place_robots()
 safe_player()
@@ -123,5 +140,5 @@ while not finished:
     move_player()
     move_robots()
     check_collisions()
-
+    
 end_graphics()
